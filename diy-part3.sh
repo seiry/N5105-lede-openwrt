@@ -11,5 +11,5 @@
 
 # Modify default IP
 
-rm -rf /workdir/openwrt/luci-theme-argon
-git clone https://github.com/jerrykuku/luci-theme-argon.git /workdir/openwrt/luci-theme-argon
+rm -rf /workdir/openwrt/feeds/luci/themes/luci-theme-argon
+git clone https://github.com/jerrykuku/luci-theme-argon.git /workdir/openwrt/package/luci-theme-argon
