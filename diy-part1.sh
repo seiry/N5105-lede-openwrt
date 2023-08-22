@@ -18,3 +18,5 @@
 #echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
 
 sed -i '$a src-git kenzo https://github.com/kenzok8/openwrt-packages' feeds.conf.default
+
+sed -i 's#src-git packages https://github.com/Lienol/openwrt-packages.git;22.03#src-git packages https://github.com/seiry/openwrt-packages.git;22.03#' feeds.conf.default
