@@ -1,0 +1,71 @@
+name: Build ghl immwrt2305 using image builder
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+        
+env:
+  IB_URL: https://downloads.immortalwrt.org/releases/23.05.1/targets/ramips/mt7621/immortalwrt-imagebuilder-23.05.1-ramips-mt7621.Linux-x86_64.tar.xz
+  RXTRA_FILES: mt7621-files
+  TZ: Asia/Shanghai
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@main
+
+    - name: Initialization environment
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        sudo apt install build-essential libncurses-dev zlib1g-dev gawk git gettext libssl-dev xsltproc rsync wget unzip python3 python3-distutils curl 
+        sudo timedatectl set-timezone "$TZ"
+        sudo mkdir -p /workdir
+        sudo chown $USER:$GROUPS /workdir
+
+    - name: Download file
+      run: |
+        curl -L -o imagebuilder.tar.xz $IB_URL
+
+    - name: Unpack file
+      run: |
+        tar -xvf imagebuilder.tar.xz --strip-components=1 -C /workdir
+
+    - name: copy files
+      run: |
+        [ -e $RXTRA_FILES ] && mv $RXTRA_FILES /workdir/files
+    - name: download ipks
+      working-directory: /workdir
+      run: |
+        mkdir packages && cd packages
+        wget https://github.com/vernesong/OpenClash/releases/download/v0.45.157-beta/luci-app-openclash_0.45.157-beta_all.ipk
+
+    - name: run build
+      id: compile
+      working-directory: /workdir
+      run: |
+        make image -j$(nproc) \
+        PROFILE="gehua_ghl-r-001" \
+        PACKAGES="-uboot-envtools base-files block-mount busybox ca-bundle default-settings-chn dnsmasq-full dropbear firewall4 fstools ipv6helper kmod-gpio-button-hotplug kmod-leds-gpio kmod-mt7603 kmod-mt76x2 kmod-nf-nathelper kmod-nf-nathelper-extra kmod-nft-offload kmod-usb-ledtrig-usbport kmod-usb3 libc libgcc libustream-openssl logd luci luci-app-opkg luci-compat luci-lib-base luci-lib-fs luci-lib-ipkg mtd netifd nftables opkg ppp ppp-mod-pppoe procd procd-seccomp procd-ujail uboot-envtools uci uclient-fetch urandom-seed urngd wpad-openssl luci-app-openclash" \
+        FILES="files"
+
+    - name: Organize files
+      id: organize
+      working-directory: /workdir
+      run: |
+        cd bin/targets/*/*
+        rm -rf packages
+        echo "FIRMWARE=$PWD" >> $GITHUB_ENV
+        echo "::set-output name=status::success"
+        echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
+
+
+    - name: Upload firmware directory
+      uses: actions/upload-artifact@main
+      if: steps.organize.outputs.status == 'success' && !cancelled()
+      with:
+        name: firmware${{ env.FILE_DATE }}
+        path: ${{ env.FIRMWARE }}
