@@ -18,7 +18,10 @@ on:
         description: 'SSH connection to Actions'
         required: false
         default: 'false'
-
+      commitId:
+        description: 'target commit id'
+        required: false
+        default: ''
 env:
   REPO_URL: https://github.com/padavanonly/immortalwrt.git
   REPO_BRANCH: master
@@ -63,6 +66,12 @@ jobs:
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
 
+    - name: checkout to special commit
+      if: github.event.inputs.commitId != ''
+      working-directory: /workdir/openwrt
+      run: |
+        git checkout ${{ github.event.inputs.commitId }}
+          
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
 
