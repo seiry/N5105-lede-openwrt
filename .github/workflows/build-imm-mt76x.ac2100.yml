@@ -67,7 +67,7 @@ jobs:
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
 
-    - name: SSH connection to Actions
+    - name: checkout to special commit
       if: github.event.inputs.commitId != ''
       working-directory: /workdir/openwrt
       run: |
