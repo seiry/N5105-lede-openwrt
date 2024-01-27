@@ -23,6 +23,7 @@ env:
   REPO_URL: https://github.com/padavanonly/immortalwrt.git
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
+  RXTRA_FILES: mt7621-files
   CONFIG_FILE: ghl.imm.mt7621.config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
@@ -70,7 +71,7 @@ jobs:
 
     - name: Load custom configuration
       run: |
-        [ -e files ] && mv files openwrt/files
+        [ -e $RXTRA_FILES ] && mv $RXTRA_FILES openwrt/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
 
     - name: SSH connection to Actions
