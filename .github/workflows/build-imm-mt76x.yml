@@ -22,6 +22,7 @@ on:
 env:
   REPO_URL: https://github.com/padavanonly/immortalwrt.git
   REPO_BRANCH: master
+  REPO_COMMIT: ea18e717e09bce133f4cbbe77917840e67fe6cba
   FEEDS_CONF: feeds.conf.default
   RXTRA_FILES: mt7621-files
   CONFIG_FILE: ghl.imm.mt7621.config
@@ -60,6 +61,7 @@ jobs:
       run: |
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt
+        [ -n "$REPO_COMMIT" ] && cd openwrt && git checkout $REPO_COMMIT
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
 
