@@ -39,6 +39,10 @@ jobs:
     - name: Build
       working-directory: /workdir/immortalwrt-mt798x
       run: |
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
+        make defconfig
+        make download -j$(nproc)
         make -j$(nproc) imagebuilder
 
     - name: Organize files
