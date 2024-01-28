@@ -43,7 +43,7 @@ jobs:
         ./scripts/feeds install -a
         make defconfig
         make download -j$(nproc)
-        make -j$(nproc) imagebuilder
+        make -j$(nproc) imagebuilder || make -j1 V=s imagebuilder
 
     - name: Organize files
       id: organize
