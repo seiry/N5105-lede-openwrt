@@ -3,7 +3,12 @@ name: Build immortalwrt-mt798x image builder
 on:
   repository_dispatch:
   workflow_dispatch:
-        
+    inputs:
+      ssh:
+        description: 'SSH connection to Actions'
+        required: false
+        default: 'false'
+
 env:
   TZ: Asia/Shanghai
 
@@ -36,6 +41,18 @@ jobs:
       run: |
         git clone --depth=1 https://github.com/hanwckf/immortalwrt-mt798x.git
     
+    - name: Set up Upterm
+      if: github.event.inputs.ssh == 'true'
+      id: upterm
+      uses: lhotari/action-upterm@v1
+      with:
+        wait-timeout-minutes: 5
+
+    - name: Print SSH connection command
+      if: github.event.inputs.ssh == 'true'
+      run: |
+        echo "SSH connection command: ${{ steps.upterm.outputs.ssh }}"
+      
     - name: Build
       working-directory: /workdir/immortalwrt-mt798x
       run: |
