@@ -58,7 +58,7 @@ jobs:
       
     - name: Copy config
       run: |
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE /workdir/immortalwrt-mt798x/.config
+        [ -e $CONFIG ] && mv $CONFIG /workdir/immortalwrt-mt798x/.config
 
     - name: Build
       working-directory: /workdir/immortalwrt-mt798x
