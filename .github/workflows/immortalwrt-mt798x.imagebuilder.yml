@@ -48,8 +48,8 @@ jobs:
       uses: lhotari/action-upterm@v1
       with:
         wait-timeout-minutes: 5
-        limit-access-to-actor: true
-        limit-access-to-users: seiry
+        # limit-access-to-actor: true
+        # limit-access-to-users: seiry
 
     - name: Print SSH connection command
       if: github.event.inputs.ssh == 'true'
