@@ -16,7 +16,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-20.04
-
+    if: github.actor == 'seiry'
     steps:
     - name: Checkout
       uses: actions/checkout@main
@@ -50,7 +50,7 @@ jobs:
         wait-timeout-minutes: 5
         limit-access-to-actor: true
         limit-access-to-users: seiry
-        
+
     - name: Print SSH connection command
       if: github.event.inputs.ssh == 'true'
       run: |
