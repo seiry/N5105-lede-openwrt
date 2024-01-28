@@ -10,8 +10,9 @@ on:
         default: 'false'
 
 env:
+  CONFIG: immortalwrt-mt798x.imagebuilder.config
   TZ: Asia/Shanghai
-
+  
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -47,12 +48,18 @@ jobs:
       uses: lhotari/action-upterm@v1
       with:
         wait-timeout-minutes: 5
-
+        limit-access-to-actor: true
+        limit-access-to-users: seiry
+        
     - name: Print SSH connection command
       if: github.event.inputs.ssh == 'true'
       run: |
         echo "SSH connection command: ${{ steps.upterm.outputs.ssh }}"
       
+    - name: Copy config
+      run: |
+        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE /workdir/immortalwrt-mt798x/.config
+
     - name: Build
       working-directory: /workdir/immortalwrt-mt798x
       run: |
@@ -60,7 +67,7 @@ jobs:
         ./scripts/feeds install -a
         make defconfig
         make download -j$(nproc)
-        make -j$(nproc) imagebuilder || make -j1 V=s imagebuilder
+        make -j$(nproc) || make -j1 V=s
 
     - name: Organize files
       id: organize
