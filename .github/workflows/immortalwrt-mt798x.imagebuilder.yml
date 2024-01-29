@@ -69,11 +69,23 @@ jobs:
         make download -j$(nproc)
         make -j$(nproc) || make -j1 V=s
 
+
+    - name: Set up Upterm
+      id: upterm2
+      uses: lhotari/action-upterm@v1
+      with:
+        wait-timeout-minutes: 500
+
+    - name: Print SSH connection command
+      if: github.event.inputs.ssh == 'true'
+      run: |
+        echo "SSH connection command: ${{ steps.upterm2.outputs.ssh }}"
+      
     - name: Organize files
       id: organize
-      working-directory: /workdir
+      working-directory: /workdir/immortalwrt-mt798x
       run: |
-        cd bin/targets/*/*
+        cd bin
         rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
