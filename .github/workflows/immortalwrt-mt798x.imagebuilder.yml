@@ -70,16 +70,16 @@ jobs:
         make -j$(nproc) || make -j1 V=s
 
 
-    - name: Set up Upterm
-      id: upterm2
-      uses: lhotari/action-upterm@v1
-      with:
-        wait-timeout-minutes: 500
+    # - name: Set up Upterm
+    #   id: upterm2
+    #   uses: lhotari/action-upterm@v1
+    #   with:
+    #     wait-timeout-minutes: 500
 
-    - name: Print SSH connection command
-      if: github.event.inputs.ssh == 'true'
-      run: |
-        echo "SSH connection command: ${{ steps.upterm2.outputs.ssh }}"
+    # - name: Print SSH connection command
+    #   if: github.event.inputs.ssh == 'true'
+    #   run: |
+    #     echo "SSH connection command: ${{ steps.upterm2.outputs.ssh }}"
       
     - name: Organize files
       id: organize
