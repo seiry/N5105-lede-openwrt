@@ -49,7 +49,7 @@ jobs:
       run: |
         make image -j$(nproc) \
         PROFILE="gehua_ghl-r-001" \
-        PACKAGES="-uboot-envtools base-files block-mount busybox ca-bundle default-settings-chn dnsmasq-full dropbear firewall4 fstools ipv6helper kmod-gpio-button-hotplug kmod-leds-gpio kmod-mt7603 kmod-mt76x2 kmod-nf-nathelper kmod-nf-nathelper-extra kmod-nft-offload kmod-usb-ledtrig-usbport kmod-usb3 libc libgcc libustream-openssl logd luci luci-app-opkg luci-compat luci-lib-base luci-lib-fs luci-lib-ipkg mtd netifd nftables opkg ppp ppp-mod-pppoe procd procd-seccomp procd-ujail uboot-envtools uci uclient-fetch urandom-seed urngd wpad-openssl luci-app-openclash luci-theme-argon" \
+        PACKAGES="-uboot-envtools base-files block-mount busybox ca-bundle default-settings-chn dnsmasq-full dropbear firewall4 fstools ipv6helper kmod-gpio-button-hotplug kmod-leds-gpio kmod-mt7603 kmod-mt76x2 kmod-nf-nathelper kmod-nf-nathelper-extra kmod-nft-offload kmod-usb-ledtrig-usbport kmod-usb3 libc libgcc libustream-openssl logd luci luci-app-opkg luci-compat luci-lib-base luci-lib-fs luci-lib-ipkg mtd netifd nftables opkg ppp ppp-mod-pppoe procd procd-seccomp procd-ujail uboot-envtools uci uclient-fetch urandom-seed urngd wpad-openssl luci-app-openclash kmod-nft-tproxy luci-theme-argon" \
         FILES="files"
 
     - name: Organize files
