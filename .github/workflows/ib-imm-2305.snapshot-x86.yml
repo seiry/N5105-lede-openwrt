@@ -1,4 +1,4 @@
-name: Build ghl immwrt2305 snapshot using image builder
+name: Build x86 immwrt2305 snapshot using image builder
 
 on:
   repository_dispatch:
