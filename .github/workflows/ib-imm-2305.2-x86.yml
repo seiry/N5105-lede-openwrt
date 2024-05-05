@@ -33,9 +33,9 @@ jobs:
       run: |
         tar -xvf imagebuilder.tar.xz --strip-components=1 -C /workdir
 
-    - name: copy files
-      run: |
-        [ -e $RXTRA_FILES ] && mv $RXTRA_FILES /workdir/files
+    # - name: copy files
+    #   run: |
+    #     [ -e $RXTRA_FILES ] && mv $RXTRA_FILES /workdir/files
     # - name: download ipks
     #   working-directory: /workdir
     #   run: |
